@@ -1,10 +1,10 @@
 from django.urls import path
 
-from store.views import index
+from store.views import IndexView
 
 urlpatterns = [
 
-   path("", index, name="index"),
+   path("", IndexView.as_view(), name="index"),
 ]
 
 app_name = "store"

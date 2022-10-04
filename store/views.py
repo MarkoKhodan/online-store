@@ -1,10 +1,9 @@
-from annoying.decorators import render_to
+from django.views import generic
 
 from store.models import Item
 
 
-@render_to('index.html')
-def index(request):
-    items = Item.objects.all()
-    return {'items': items}
-
+class IndexView(generic.ListView):
+    model = Item
+    context_object_name = "items_list"
+    template_name = "index.html"
