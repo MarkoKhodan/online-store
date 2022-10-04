@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from annoying.decorators import render_to
 
-# Create your views here.
+from store.models import Item
+
+
+@render_to('index.html')
+def index(request):
+    items = Item.objects.all()
+    return {'items': items}
+
