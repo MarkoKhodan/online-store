@@ -1,0 +1,1 @@
+[{"model": "store.item", "pk": 1, "fields": {"title": "IPHONE 14", "description": "TEST", "price": "1200.00"}}, {"model": "store.item", "pk": 2, "fields": {"title": "MacBook Pro", "description": "TEST", "price": "2100.00"}}]

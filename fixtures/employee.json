@@ -1,0 +1,1 @@
+[{"model": "store.employee", "pk": 1, "fields": {"first_name": "Marko", "last_name": "Khodan"}}, {"model": "store.employee", "pk": 2, "fields": {"first_name": "Albert", "last_name": "Einshtein"}}]
