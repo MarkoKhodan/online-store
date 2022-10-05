@@ -4,7 +4,9 @@ client = Client()
 
 
 class TestUrl(TestCase):
-    fixtures = ["item.json", ]
+    fixtures = [
+        "item.json",
+    ]
 
     def test_home_page(self):
         response = self.client.get("/")
@@ -19,5 +21,3 @@ class TestUrl(TestCase):
         response = self.client.get("/sale/2/")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "MacBook Pro")
-
-

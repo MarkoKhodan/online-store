@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>ALL ORDERS:</h1>
+  {% if sale_list %}
+      <table class="table">
+      <tr>
+        <th>Time</th>
+        <th>Item</th>
+        <th>Seller</th>
+        <th>Total</th>
+      </tr>
+      {% for order in sale_list %}
+      <tr>
+        <td>{{ order.created_at }}</td>
+        <td>{{ order.item}}</td>
+        <td>{{ order.seller }}</td>
+        <td>{{ order.total_cost }}</td>
+      </tr>
+      {% endfor %}
+       </table>
+  {% else %}
+    <p>There are no orders yet</p>
+  {% endif %}
+{% endblock %}

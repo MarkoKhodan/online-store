@@ -10,8 +10,8 @@ class SaleForm(ModelForm):
     class Meta:
         model = Sale
         fields = [
-            'item',
-            'quantity',
-            'seller',
+            "item",
+            "quantity",
+            "seller",
         ]
-        widgets = {'item': HiddenInput()}
+        widgets = {"item": HiddenInput()}

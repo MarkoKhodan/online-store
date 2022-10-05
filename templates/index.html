@@ -17,7 +17,7 @@
       <tr>
         <td>{{ item.title }}</td>
         <td>{{ item.price }}</td>
-        <td> <a href="{% url "store:sale" pk=item.id%}" class="btn btn-primary"> BUY </a></td>
+        <td> <a href="{% url "store:sale-create" pk=item.id%}" class="btn btn-primary"> BUY </a></td>
       </tr>
     {% endfor %}
 
