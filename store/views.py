@@ -17,7 +17,6 @@ class SaleCreateView(generic.CreateView):
     success_url = reverse_lazy("store:index")
     template_name = "sale_form.html"
     form_class = SaleForm
-    # fields = "__all__"
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -37,3 +36,4 @@ class SaleListView(LoginRequiredMixin, generic.ListView):
     model = Sale
     template_name = "order_list.html"
     ordering = ["-created_at"]
+    paginate_by = 5
