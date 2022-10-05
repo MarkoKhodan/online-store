@@ -5,15 +5,25 @@
     <p>Welcome to Best Store</p>
 
     <p>Our store offer :</p>
-    <ul>
-        {% for item in items_list %}
-        <li>
-            <h2> {{ item.title }} </h2>
 
-            <p> {{ item.description }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+    <table class="table">
+      <tr>
+
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th> </th>
+      </tr>
+    {% for item in items_list %}
+      <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.price }}</td>
+        <td> BUY IT </td>
+      </tr>
+    {% endfor %}
+
+    </table>
 
 
 {% endblock %}
