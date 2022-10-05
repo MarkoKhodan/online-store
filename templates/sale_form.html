@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sale of {{ item.title }}</h1>
+    <h2>Description:</h2>
+    <p>{{ item.description }}</p>
+    <form method="post" action="" novalidate>
+{% csrf_token %}
+{{ form.as_p }}
+{{ form.item.as_hidden }}
+
+<input type="submit" value="Pay" class="btn btn-primary" />
+
+{% endblock %}
