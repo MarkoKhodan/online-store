@@ -1,4 +1,7 @@
+from black import Mode
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Item(models.Model):
@@ -38,3 +41,18 @@ class Sale(models.Model):
         return (
             f"{self.created_at} {self.quantity} X {self.item.title} = {self.total_cost}"
         )
+
+
+class PriceChanges(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    item = models.ForeignKey(
+        Item, related_name="price_changes", on_delete=models.CASCADE
+    )
+    new_price = models.DecimalField(max_digits=6, decimal_places=2)
+
+
+@receiver(post_save, sender=Item)
+def post_save(sender, instance, created, **kwargs):
+    if not created:
+        if "price" in kwargs["update_fields"]:
+            PriceChanges.objects.create(new_price=instance.price, item_id=instance.id)

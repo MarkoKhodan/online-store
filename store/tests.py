@@ -7,10 +7,7 @@ client = Client()
 
 class TestUrl(TestCase):
 
-    fixtures = [
-        "item.json",
-        "admin.json"
-    ]
+    fixtures = ["item.json", "admin.json"]
 
     def setUp(self) -> None:
         self.user = User.objects.get(id=1)
@@ -36,7 +33,6 @@ class TestUrl(TestCase):
 
 
 class LoginRequiredTest(TestCase):
-
     def test_index(self):
 
         response = self.client.get("/sale/")
@@ -61,6 +57,6 @@ class PaginationTest(TestCase):
     def test_pagination_is_correct(self):
         response = self.client.get("/sale/")
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('is_paginated' in response.context)
-        print (response.context['sale_list'])
-        self.assertTrue(len(response.context['sale_list']) == 5)
+        self.assertTrue("is_paginated" in response.context)
+        print(response.context["sale_list"])
+        self.assertTrue(len(response.context["sale_list"]) == 5)

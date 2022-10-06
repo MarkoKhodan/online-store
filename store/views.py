@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from store.forms import SaleForm
-from store.models import Item, Sale
+from store.models import Item, Sale, PriceChanges
 
 
 class IndexView(generic.ListView):
@@ -37,3 +37,9 @@ class SaleListView(LoginRequiredMixin, generic.ListView):
     template_name = "order_list.html"
     ordering = ["-created_at"]
     paginate_by = 5
+
+
+class PriceChangesListView(LoginRequiredMixin, generic.ListView):
+    template_name = "price-changes_list.html"
+    model = PriceChanges
+    ordering = ["-created_at"]

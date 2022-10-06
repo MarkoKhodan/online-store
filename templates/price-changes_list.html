@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>ALL ORDERS:</h1>
+  {% if pricechanges_list %}
+      <table class="table">
+      <tr>
+        <th>Time</th>
+        <th>Item</th>
+        <th>New Price</th>
+      </tr>
+      {% for change in pricechanges_list %}
+      <tr>
+        <td>{{ change.created_at }}</td>
+        <td>{{ change.item}}</td>
+        <td>{{ change.new_price }}</td>
+      </tr>
+      {% endfor %}
+       </table>
+  {% else %}
+    <p>There are no changes yet</p>
+  {% endif %}
+{% endblock %}
