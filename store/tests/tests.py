@@ -76,14 +76,21 @@ class PriceChangesListTest(TestCase):
     def setUp(self) -> None:
         self.user = get_user_model().objects.get(id=1)
         self.client.force_login(self.user)
+        self.client.post(
+            "/admin/store/item/1/change/",
+            {"title": "Test", "description": "Test descr", "price": 200},
+        )
 
     def test_changes_is_added_to_model(self):
         response = self.client.post(
             "/admin/store/item/1/change/",
-            {"title": "Test", "description": "Test descr", "price": 200},
+            {"title": "Test", "description": "Test descr", "price": 300},
         )
+
         item = Item.objects.get(id=1)
-        change = PriceChanges.objects.filter(id=1)
+        first_change = PriceChanges.objects.get(id=1)
+        second_change = PriceChanges.objects.filter(id=2)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(item.price, Decimal("200.00"))
-        self.assertTrue(change.exists())
+        self.assertEqual(item.price, Decimal("300.00"))
+        self.assertEqual(first_change.new_price, Decimal("200.00"))
+        self.assertTrue(second_change.exists())
