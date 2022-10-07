@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
+from decimal import *
+
+from store.models import Item, PriceChanges
 
 client = Client()
 
@@ -58,5 +61,29 @@ class PaginationTest(TestCase):
         response = self.client.get("/sale/")
         self.assertEqual(response.status_code, 200)
         self.assertTrue("is_paginated" in response.context)
-        print(response.context["sale_list"])
         self.assertTrue(len(response.context["sale_list"]) == 5)
+
+
+class PriceChangesListTest(TestCase):
+
+    fixtures = [
+        "employee.json",
+        "item.json",
+        "sale.json",
+        "admin.json",
+    ]
+
+    def setUp(self) -> None:
+        self.user = get_user_model().objects.get(id=1)
+        self.client.force_login(self.user)
+
+    def test_changes_is_added_to_model(self):
+        response = self.client.post(
+            "/admin/store/item/1/change/",
+            {"title": "Test", "description": "Test descr", "price": 200},
+        )
+        item = Item.objects.get(id=1)
+        change = PriceChanges.objects.filter(id=1)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(item.price, Decimal("200.00"))
+        self.assertTrue(change.exists())
