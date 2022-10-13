@@ -10,7 +10,7 @@ client = Client()
 
 class TestUrl(TestCase):
 
-    fixtures = ["item.json", "admin.json"]
+    fixtures = ["item.json", "initial_data.json"]
 
     def setUp(self) -> None:
         self.user = User.objects.get(id=1)
@@ -50,7 +50,7 @@ class PaginationTest(TestCase):
         "employee.json",
         "item.json",
         "sale.json",
-        "admin.json",
+        "initial_data.json",
     ]
 
     def setUp(self) -> None:
@@ -70,7 +70,7 @@ class PriceChangesListTest(TestCase):
         "employee.json",
         "item.json",
         "sale.json",
-        "admin.json",
+        "initial_data.json",
     ]
 
     def setUp(self) -> None:
@@ -81,16 +81,20 @@ class PriceChangesListTest(TestCase):
             {"title": "Test", "description": "Test descr", "price": 200},
         )
 
-    def test_changes_is_added_to_model(self):
-        response = self.client.post(
-            "/admin/store/item/1/change/",
+    def test_change_prices(self):
+
+        item = Item.objects.create(title="title", description="description", price=200)
+        item.price += 1
+        item.save()
+        self.client.post(
+            f"/admin/store/item/{item.id}/change/",
             {"title": "Test", "description": "Test descr", "price": 300},
         )
-
-        item = Item.objects.get(id=1)
-        first_change = PriceChanges.objects.get(id=1)
-        second_change = PriceChanges.objects.filter(id=2)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(item.price, Decimal("300.00"))
-        self.assertEqual(first_change.new_price, Decimal("200.00"))
-        self.assertTrue(second_change.exists())
+        price_dynamics = list(
+            item.price_changes.order_by("created_at").values_list(
+                "new_price", flat=True
+            )
+        )
+        self.assertListEqual(
+            price_dynamics, [Decimal("200.00"), Decimal("201.00"), Decimal("300.00")]
+        )

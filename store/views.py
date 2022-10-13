@@ -26,7 +26,6 @@ class SaleCreateView(generic.CreateView):
         return context
 
     def get_initial(self):
-        Item.objects.get(pk=self.kwargs.get("pk"))
         initial = super(SaleCreateView, self).get_initial()
         initial["item"] = Item.objects.get(pk=self.kwargs["pk"])
         return initial

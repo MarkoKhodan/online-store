@@ -19,7 +19,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 python manage.py runmigtarions
-python manage.py loaddata admin.json
+python manage.py loaddata initial_data.json
 python manage.py loaddata employee.json
 python manage.py loaddata item.json
 python manage.py loaddata sale.json
@@ -35,7 +35,7 @@ python3 -m venv venv
 source venv/Scripts/activate
 pip install -r requirements.txt
 python manage.py runmigtarions
-python manage.py loaddata admin.json
+python manage.py loaddata initial_data.json
 python manage.py loaddata employee.json
 python manage.py loaddata item.json
 python manage.py loaddata sale.json
