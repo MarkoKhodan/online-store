@@ -5,9 +5,9 @@
     <h2>Description:</h2>
     <p>{{ item.description }}</p>
     <form method="post" action="" novalidate>
-{% csrf_token %}
-{{ form.as_p }}
+        {% csrf_token %}
+        {{ form.as_p }}
 
-    <input type="submit" value="Pay" class="btn btn-primary" />
-
+        <input type="submit" value="Pay" class="btn btn-primary" />
+    <form method="post" action="" novalidate>
 {% endblock %}
