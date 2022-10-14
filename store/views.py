@@ -19,16 +19,11 @@ class SaleCreateView(generic.CreateView):
     form_class = SaleForm
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
+        item = Item.objects.get(id=self.kwargs["pk"])
+        self.initial["item"] = item
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context["item"] = Item.objects.get(id=self.kwargs["pk"])
+        context["item"] = item
         return context
-
-    def get_initial(self):
-        initial = super(SaleCreateView, self).get_initial()
-        initial["item"] = Item.objects.get(pk=self.kwargs["pk"])
-        return initial
 
 
 class SaleListView(LoginRequiredMixin, generic.ListView):

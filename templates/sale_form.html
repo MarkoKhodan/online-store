@@ -7,8 +7,7 @@
     <form method="post" action="" novalidate>
 {% csrf_token %}
 {{ form.as_p }}
-{{ form.item.as_hidden }}
 
-<input type="submit" value="Pay" class="btn btn-primary" />
+    <input type="submit" value="Pay" class="btn btn-primary" />
 
 {% endblock %}

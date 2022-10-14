@@ -1,13 +1,13 @@
 from django.db import models
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
+from tracking_model import TrackingModelMixin
 
 
-class Item(models.Model):
+class Item(TrackingModelMixin, models.Model):
     title = models.CharField(max_length=64, blank=False, null=False)
     description = models.CharField(max_length=255, blank=False, null=False)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    _old_price = None
 
     def __str__(self):
         return f"{self.title}"
@@ -51,15 +51,9 @@ class PriceChanges(models.Model):
     new_price = models.DecimalField(max_digits=6, decimal_places=2)
 
 
-@receiver(pre_save, sender=Item)
-def check_price(sender, instance=None, created=False, **kwargs):
-    return instance.price
-
-
 @receiver(post_save, sender=Item)
 def post_save(sender, instance, created, **kwargs):
-    if not created:
-        if check_price != instance.price:
-            PriceChanges.objects.create(new_price=instance.price, item_id=instance.id)
     if created:
+        PriceChanges.objects.create(new_price=instance.price, item_id=instance.id)
+    elif "price" in instance.tracker.changed:
         PriceChanges.objects.create(new_price=instance.price, item_id=instance.id)

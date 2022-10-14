@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from decimal import *
 
-from store.models import Item, PriceChanges
+from store.models import Item
 
 client = Client()
 
@@ -66,12 +66,7 @@ class PaginationTest(TestCase):
 
 class PriceChangesListTest(TestCase):
 
-    fixtures = [
-        "employee.json",
-        "item.json",
-        "sale.json",
-        "initial_data.json",
-    ]
+    fixtures = ["employee.json", "item.json", "sale.json", "initial_data.json"]
 
     def setUp(self) -> None:
         self.user = get_user_model().objects.get(id=1)
@@ -85,6 +80,7 @@ class PriceChangesListTest(TestCase):
 
         item = Item.objects.create(title="title", description="description", price=200)
         item.price += 1
+        item.save()
         item.save()
         self.client.post(
             f"/admin/store/item/{item.id}/change/",
